@@ -1,12 +1,12 @@
 
-def mergesort(listy):
+def mergesort(data: list[dict]):
 	""" Sorts worldcites dataset by latitudes with mergesort """
-	if len(listy) > 1:
+	if len(data) > 1:
 		# Gets middle index as int
-		m = len(listy)//2
+		m = len(data) // 2
 
-		left = listy[:m]
-		right = listy[m:]
+		left = data[:m]
+		right = data[m:]
 
 		# pass by reference
 		mergesort(left)
@@ -20,23 +20,23 @@ def mergesort(listy):
 		r_len = len(right)
 
 		while i < l_len and j < r_len:
-			if left[i] < right[j]:
-				listy[k] = left[i]
+			if left[i]["lat"] < right[j]["lat"]:
+				data[k] = left[i]
 				i += 1
 			else:
-				listy[k] = right[j]
+				data[k] = right[j]
 				j += 1
 
 			k += 1
 
 		# Adds any remaining elements from left or right side to the and of the list
 		while i < l_len:
-			listy[k] = left[i]
+			data[k] = left[i]
 			i += 1
 			k += 1
 
 		while j < r_len:
-			listy[k] = right[j]
+			data[k] = right[j]
 			j += 1
 			k += 1
 

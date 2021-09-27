@@ -3,11 +3,11 @@ import sorts
 
 
 def main():
-	# fm.get_data()
+	dataset = fm.get_data()
 
-	asd = [12, 11, 13, 5, 6, 7]
-	sorts.mergesort(asd)
-	print(asd)
+	sorts.mergesort(dataset)
+	for d in dataset:
+		print(d)
 
 
 if __name__ == "__main__":
