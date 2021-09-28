@@ -31,7 +31,8 @@ def main():
 	# print(f"\tnumber of merges done: {sorts.mergesort_merge_count}")
 	# print(f"\tnumber of nodes visited: {sorts.mergesort_node_count}")
 
-	print(search.binary_search(sorted_by_lat, 28.6600))
+	print(search.binary_search(sorted_by_lat, "Catas Altas", -20.0750))
+	print(search.binary_search(sorted_by_lat, "Itaúna", -20.0750))
 
 
 
