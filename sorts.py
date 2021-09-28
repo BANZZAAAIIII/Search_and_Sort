@@ -11,6 +11,36 @@ def reset_globals():
 	mergesort_node_count = 0
 
 
+def calculateDistance(lat1, lng1):
+	""""
+	uses haversine formula from: https://www.movable-type.co.uk/scripts/latlong.html
+	a = sin²(delta_phi/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
+	c = 2 ⋅ atan2( √a, √(1−a) )
+	d = R ⋅ c
+	"""
+	def inner(lat2, lng2):
+		R = 6371  # earths radius in m
+		phi1 = math.radians(lat1)
+		lambda1 = math.radians(lng1)
+		phi2 = math.radians(lat2)
+		lambda2 = math.radians(lng2)
+
+		delta_phi = phi2 - phi1
+		delta_lambda = lambda2 - lambda1
+
+		a = (math.sin(delta_phi / 2) * math.sin(delta_phi / 2) +
+			 math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2) * math.sin(delta_lambda / 2))
+		c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+		return R * c
+
+	return inner
+
+
+def add_dist_to_dataset(data, dist_from):
+	for d in data:
+		d["dist"] = dist_from(d["lat"], d["lng"])
+
+
 def mergesort(data: list[dict], compare: str) -> list[dict]:
 	global mergesort_merge_count
 	global mergesort_node_count
@@ -62,38 +92,10 @@ def mergesort(data: list[dict], compare: str) -> list[dict]:
 def mergesort_from_pos(dataset, lat, lng):
 	"""
 	Sorts wordlcities datasets from a given coordinate with mergesort
-	using haversine formula from: https://www.movable-type.co.uk/scripts/latlong.html
-	a = sin²(delta_phi/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
-	c = 2 ⋅ atan2( √a, √(1−a) )
-	d = R ⋅ c
 	"""
-	def calculateDistance(lat1, lng1):
-		def inner(lat2, lng2):
-			R = 6371  # earths radius in m
-			phi1 = math.radians(lat1)
-			lambda1 = math.radians(lng1)
-			phi2 = math.radians(lat2)
-			lambda2 = math.radians(lng2)
-
-			delta_phi = phi2 - phi1
-			delta_lambda = lambda2 - lambda1
-
-			a = (math.sin(delta_phi / 2) * math.sin(delta_phi / 2) +
-				 math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2) * math.sin(delta_lambda / 2))
-			c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-			return R * c
-
-		return inner
-
-	def add_dist_to_dataset(data, dist_from):
-		for d in data:
-			d["dist"] = dist_from(d["lat"], d["lng"])
-
 	dist_from_x = calculateDistance(lat, lng)
 	add_dist_to_dataset(dataset, dist_from_x)
 	return mergesort(dataset, "dist")
-
-# mergesort2(dataset)
 
 
 def quicksort():
