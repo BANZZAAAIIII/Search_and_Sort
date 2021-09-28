@@ -66,17 +66,17 @@ def mergesort_from_pos(dataset, lat, lng):
 	using haversine formula from: https://www.movable-type.co.uk/scripts/latlong.html
 	a = sin²(delta_phi/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
 	c = 2 ⋅ atan2( √a, √(1−a) )
-	d = R ⋅ c """
+	d = R ⋅ c
+	"""
 
 	def calculateDistance(lat1, lng1):
 		def inner(lat2, lng2):
-			def toRad(x): return x * (math.pi / 180)
-			R = 6371e3  # earths radius in m
-			phi1 = toRad(lat1)
-			lambda1 = toRad(lng1)
-			phi2 = toRad(lat2)
-			lambda2 = toRad(lng2)
-
+			R = 6371  # earths radius in m
+			phi1 = math.radians(lat1)
+			lambda1 = math.radians(lng1)
+			phi2 = math.radians(lat2)
+			lambda2 = math.radians(lng2)
+			
 			delta_phi = phi2 - phi1
 			delta_lambda = lambda2 - lambda1
 
@@ -86,6 +86,10 @@ def mergesort_from_pos(dataset, lat, lng):
 			return R * c
 
 		return inner
+
+	def add_dist_to_dataset(data, dist_from):
+		for d in data:
+			d["dist"] = dist_from(d["lat"], d["lng"])
 
 	def mergesort2(data):
 		global mergesort_merge_count
@@ -108,7 +112,7 @@ def mergesort_from_pos(dataset, lat, lng):
 			while i < l_len and j < r_len:
 				mergesort_merge_count += 1
 
-				if dist_from_x(left[i]["lat"], left[i]["lng"]) < dist_from_x(right[j]["lat"], right[j]["lng"]):
+				if left[i]["dist"] < right[j]["dist"]:
 					data[k] = left[i]
 					i += 1
 				else:
@@ -135,9 +139,9 @@ def mergesort_from_pos(dataset, lat, lng):
 		else:
 			return data
 
-	dist_from_x = calculateDistance(35.6897, 139.6922)
-	print(dist_from_x(-6.2146, 106.8451))
-
+	dist_from_x = calculateDistance(lat, lng)
+	add_dist_to_dataset(dataset, dist_from_x)
+	return mergesort2(dataset)
 
 # mergesort2(dataset)
 

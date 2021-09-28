@@ -25,7 +25,10 @@ def main():
 	# print(f"number of nodes visited: {sorts.mergesort_node_count}")
 	#
 
-	sorts.mergesort_from_pos(dataset, 1, 1)
+	blarg = sorts.mergesort_from_pos(dataset, 1, 1)
+
+	for b in blarg:
+		print(b)
 
 
 
