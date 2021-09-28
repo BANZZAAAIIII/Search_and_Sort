@@ -64,48 +64,26 @@ def mergesort_from_pos(dataset, lat, lng):
 	"""
 	Sorts wordlcities datasets from a given coordinate with mergesort
 	using haversine formula from: https://www.movable-type.co.uk/scripts/latlong.html
-	a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
+	a = sin²(delta_phi/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
 	c = 2 ⋅ atan2( √a, √(1−a) )
 	d = R ⋅ c """
 
 	def calculateDistance(lat1, lng1):
 		def inner(lat2, lng2):
 			def toRad(x): return x * (math.pi / 180)
-
 			R = 6371e3  # earths radius in m
-			# phi1 = toRad(lat1)
-			# phi2 = toRad(lat2)
-			#
-			# delta_phi = toRad((lat2 - lat1))
-			# delta_lambda = toRad((lng2 - lng1))
-			#
-			# a = (math.sin(delta_phi / 2) * math.sin(delta_phi / 2) +
-			# 	 math.cos(phi1) * math.cos(phi2) +
-			# 	 math.sin(delta_lambda / 2) * math.sin(delta_lambda / 2))
-			# # c = 2 * math.atan2(math.sqrt(a), math.sqrt((1 - a)))
-			# c = 2 * math.asin(min(1, math.sqrt(a)))
-			# d = R * c
+			phi1 = toRad(lat1)
+			lambda1 = toRad(lng1)
+			phi2 = toRad(lat2)
+			lambda2 = toRad(lng2)
 
+			delta_phi = phi2 - phi1
+			delta_lambda = lambda2 - lambda1
 
-			# φ1 = toRad(lat1)
-			# λ1 = toRad(lng2)
-			# φ2 = toRad(lat2)
-			# λ2 = toRad(lng2)
-			#
-			# Δφ = φ2 - φ1
-			# Δλ = λ2 - λ1
-			#
-			# a = math.sin(Δφ / 2) * math.sin(Δφ / 2) + math.cos(φ1) * math.cos(φ2) * math.sin(Δλ / 2) * math.sin(Δλ / 2)
-			# c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-			# d = R * c
-
-			# Spherical Law of Cosines
-			# φ1 = toRad(lat1)
-			# φ2 = toRad(lat2)
-			# Δλ = toRad((lng2 - lng1))
-			# d = math.acos(math.sin(φ1) * math.sin(φ2) + math.cos(φ1) * math.cos(φ2) * math.cos(Δλ)) * R
-
-			return d
+			a = (math.sin(delta_phi / 2) * math.sin(delta_phi / 2) +
+				 math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2) * math.sin(delta_lambda / 2))
+			c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+			return R * c
 
 		return inner
 
@@ -159,7 +137,9 @@ def mergesort_from_pos(dataset, lat, lng):
 
 	dist_from_x = calculateDistance(35.6897, 139.6922)
 	print(dist_from_x(-6.2146, 106.8451))
-	# mergesort2(dataset)
+
+
+# mergesort2(dataset)
 
 
 def quicksort():
