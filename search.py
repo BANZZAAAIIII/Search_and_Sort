@@ -5,6 +5,7 @@ def binary_search(dataset, city_value, lat_value):
 	def search(data, left_index, right_index):
 		if right_index > 1:
 			middle = (left_index + right_index) // 2
+			# Is using isclose a good idea? 41.728_ has a lot of cities
 			if math.isclose(data[middle]["lat"], lat_value) and data[middle]["city"] == city_value:
 				return data[middle]
 
