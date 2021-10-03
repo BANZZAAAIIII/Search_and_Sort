@@ -1,15 +1,15 @@
 import math
 import random
 
-mergesort_merge_count = 0
-mergesort_node_count = 0
+merge_count = 0
+node_count = 0
 
 
 def reset_globals():
-	global mergesort_merge_count
-	global mergesort_node_count
-	mergesort_merge_count = 0
-	mergesort_node_count = 0
+	global merge_count
+	global node_count
+	merge_count = 0
+	node_count = 0
 
 
 def calculateDistance(lat1, lng1):
@@ -43,9 +43,9 @@ def add_dist_to_dataset(data, dist_from):
 
 
 def mergesort(data: list[dict], compare: str) -> list[dict]:
-	global mergesort_merge_count
-	global mergesort_node_count
-	mergesort_node_count += 1
+	global merge_count
+	global node_count
+	node_count += 1
 	if len(data) > 1:
 		# Gets middle index as int
 		m = len(data) // 2
@@ -61,7 +61,7 @@ def mergesort(data: list[dict], compare: str) -> list[dict]:
 		r_len = len(right) if right is not None else 0
 
 		while Left_index < l_len and right_index < r_len:
-			mergesort_merge_count += 1
+			merge_count += 1
 			if left[Left_index][compare] < right[right_index][compare]:
 				data[current_index] = left[Left_index]
 				Left_index += 1
@@ -73,13 +73,13 @@ def mergesort(data: list[dict], compare: str) -> list[dict]:
 
 		# Adds any remaining elements from left or right side to the and of the list
 		while Left_index < l_len:
-			mergesort_merge_count += 1
+			merge_count += 1
 			data[current_index] = left[Left_index]
 			Left_index += 1
 			current_index += 1
 
 		while right_index < r_len:
-			mergesort_merge_count += 1
+			merge_count += 1
 			data[current_index] = right[right_index]
 			right_index += 1
 			current_index += 1
@@ -97,12 +97,12 @@ def mergesort_from_pos(dataset, lat, lng):
 	return mergesort(dataset, "dist")
 
 
-def quicksort(dataset, lat):
+def quicksort(dataset: list[dict], compare: str) -> list[dict]:
 	""" Sorts worldcites dataset by latitudes with quicksort """
 
-	def sort(data, left_index, right_index):
-		global mergesort_node_count
-		mergesort_node_count += 1
+	def sort(data: list[dict], left_index: int, right_index: int):
+		global node_count
+		node_count += 1
 		if left_index <= right_index:
 			p = partition(data, left_index, right_index)
 
@@ -113,18 +113,18 @@ def quicksort(dataset, lat):
 
 		return data
 
-	def partition(data, left_index, right_index) -> int:
-		global mergesort_merge_count
+	def partition(data: list[dict], left_index: int, right_index: int) -> int:
+		global merge_count
 		# pivot_index = random.randrange(left_index, right_index + 1)
 		# data[pivot_index], data[right_index] = data[right_index], data[pivot_index]
 		pivot_index = right_index
-		pivot = data[pivot_index]["lat"]
+		pivot = data[pivot_index][compare]
 		i = left_index - 1
 		for j in range(left_index, pivot_index):
-			if data[j]["lat"] < pivot:
+			if data[j][compare] < pivot:
 				i += 1
 				data[i], data[j] = data[j], data[i]
-				mergesort_merge_count += 1
+				merge_count += 1
 
 		data[i + 1], data[pivot_index] = data[pivot_index], data[i + 1]
 		return i + 1
@@ -132,6 +132,8 @@ def quicksort(dataset, lat):
 	return sort(dataset, 0, len(dataset) - 1)
 
 
-def quicksort2(dataset, lat, lng):
+def quicksort_from_pos(dataset, lat, lng):
 	""" Sorts wordlcities datasets with distance from given coordinate quicksort """
-	raise NotImplemented
+	dist_from_x = calculateDistance(lat, lng)
+	add_dist_to_dataset(dataset, dist_from_x)
+	return quicksort(dataset, "dist")
