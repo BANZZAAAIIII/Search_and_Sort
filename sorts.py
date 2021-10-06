@@ -132,7 +132,7 @@ def quicksort(dataset: List[dict], compare: str) -> List[dict]:
 	return sort(dataset, 0, len(dataset) - 1)
 
 
-def quicksort_from_pos(dataset, lat, lng):
+def quicksort_from_pos(dataset, lat, lng) -> List[dict]:
 	""" Sorts wordlcities datasets with distance from given coordinate quicksort """
 	dist_from_x = calculateDistance(lat, lng)
 	add_dist_to_dataset(dataset, dist_from_x)

@@ -1,3 +1,4 @@
+import random
 from operator import itemgetter
 from itertools import groupby
 from random import shuffle
@@ -9,7 +10,7 @@ import sorts
 
 
 def main():
-	dataset = fm.get_data(True)
+	dataset = fm.get_data()
 
 	# print("1.1:")
 	# sorted_by_lat = sorts.mergesort(list(dataset), "lat")
@@ -64,17 +65,13 @@ def main():
 	# print("\t" + str(search.binary_search(sorted_by_lat, "Catas Altas", -20.0750)))
 	# print("\t" + str(search.binary_search(sorted_by_lat, "Itaúna", -20.0750)))
 
-	# result = groupby(sorts.quicksort(dataset, "lat"), key=itemgetter("lat"))
-	# freq = []
-	# for key, value in result:
-	# 	freq.append([key, len([d["city"] for d in value])])
+	dataset_norway = fm.get_data(True)
+	for d in dataset_norway:
+		d["freq"] = random.randrange(0, 100)/100
 
-	# for d in freq:
-	# 	print(d)
+	cost, root = search.OBST_search(dataset_norway, 1, 1, True)
 
-	freq = []
 
-	search.OBST(freq, 1, 1, True)
 
 
 if __name__ == "__main__":
