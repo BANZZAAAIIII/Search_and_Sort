@@ -19,66 +19,62 @@ def binary_search(dataset, city_value, lat_value):
 	return search(dataset, 0, len(dataset) - 1)
 
 
-def OBST(dataset, city_value, lat_value):
-	INT_MAX = 2147483647
+def OBST(dataset, city_value, lat_value, prints=False):
+	def optimalBinarySearchTree(keys, freq, n):
+		# Based on: https://www.radford.edu/~nokie/classes/360/dp-opt-bst.html
+		cost = [[0 for _ in range(n)] for _ in range(n)]
+		root = [[0 for _ in range(n)] for _ in range(n)]
 
-	def optimalSearchTree(keys, freq, n):
-
-		""" Create an auxiliary 2D matrix to store
-			results of subproblems """
-		cost = [[0 for x in range(n)] for y in range(n)]
-
-		""" cost[i][j] = Optimal cost of binary search
-		tree that can be formed from keys[i] to keys[j].
-		cost[0][n-1] will store the resultant cost """
-
-		# For a single key, cost is equal to
-		# frequency of the key
+		# Diagonal cost
 		for i in range(n):
+			root[i][i] = keys[i]
 			cost[i][i] = freq[i]
 
-		# Now we need to consider chains of
-		# length 2, 3, ... . L is chain length.
-		for L in range(2, n + 1):
-
-			# i is row number in cost
-			for i in range(n - L + 2):
-
-				# Get column number j from row number
-				# i and chain length L
-				j = i + L - 1
-				if i >= n or j >= n:
+		for size in range(2, n + 1):
+			for row in range(n - size + 2):
+				col = row + size - 1
+				if row >= n or col >= n:
 					break
-				cost[i][j] = INT_MAX
 
-				# Try making all keys in interval
-				# keys[i..j] as root
-				for r in range(i, j + 1):
+				cost[row][col] = math.inf
 
-					# c = cost when keys[r] becomes root
-					# of this subtree
-					c = 0
-					if (r > i):
-						c += cost[i][r - 1]
-					if (r < j):
-						c += cost[r + 1][j]
-					c += sum(freq, i, j)
-					if (c < cost[i][j]):
-						cost[i][j] = c
-		return cost[0][n - 1]
+				# Checks cost of all nodes, from row to col, as root
+				for r in range(row, col + 1):
+					currentCost = 0
 
-	# A utility function to get sum of
-	# array elements freq[i] to freq[j]
-	def sum(freq, i, j):
+					# Adds cost of left subtree
+					if r > row:
+						currentCost += cost[row][r - 1]
+					# Adds cost of right subtree
+					if r < col:
+						currentCost += cost[r + 1][col]
 
-		s = 0
-		for k in range(i, j + 1):
-			s += freq[k]
-		return s
+					currentCost += sum(freq[i] for i in range(row, col + 1))
 
-	# Driver Code
+					# Checks if this node has a lower cost
+					if currentCost < cost[row][col]:
+						root[row][col] = keys[r]
+						cost[row][col] = currentCost
 
-	keys = [10, 12, 20]
-	freq = [34, 8, 50]
-	n = len(keys)
-	print("Cost of Optimal BST is ", optimalSearchTree(keys, freq, n))
+
+		return cost, root
+
+	# keys, frequency = zip(*dataset)
+	# keys = [10, 12, 20]
+	# frequency = [34, 8, 50]
+	# frequency = [25, 10, 20]
+
+	keys = [10, 20, 30, 40]
+	frequency = [4, 2, 6, 3]
+
+	cost, root = optimalBinarySearchTree(keys, frequency, len(keys))
+	print(f"OBST Cost: {cost[0][len(keys) - 1]}")
+
+	if prints:
+		print("nodes:")
+		for d in root:
+			print(f"\t{d}")
+
+		print("Cost:")
+		for d in cost:
+			print(f"\t{d}")

@@ -1,7 +1,8 @@
+from typing import List
 import csv
 
 
-def get_data(norway=False) -> list[dict]:
+def get_data(norway=False) -> List[dict]:
 	dataset = []
 
 	with open("data/worldcities.csv", encoding='utf-8') as csv_file:

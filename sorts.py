@@ -1,5 +1,5 @@
+from typing import List
 import math
-import random
 
 merge_count = 0
 node_count = 0
@@ -20,7 +20,7 @@ def calculateDistance(lat1, lng1):
 	d = R ⋅ c
 	"""
 	def inner(lat2, lng2):
-		R = 6371  # earths radius in m
+		R = 6371  # earths radius in km
 		phi1 = math.radians(lat1)
 		lambda1 = math.radians(lng1)
 		phi2 = math.radians(lat2)
@@ -42,7 +42,7 @@ def add_dist_to_dataset(data, dist_from):
 		d["dist"] = dist_from(d["lat"], d["lng"])
 
 
-def mergesort(data: list[dict], compare: str) -> list[dict]:
+def mergesort(data: List[dict], compare: str) -> List[dict]:
 	global merge_count
 	global node_count
 	node_count += 1
@@ -97,10 +97,10 @@ def mergesort_from_pos(dataset, lat, lng):
 	return mergesort(dataset, "dist")
 
 
-def quicksort(dataset: list[dict], compare: str) -> list[dict]:
+def quicksort(dataset: List[dict], compare: str) -> List[dict]:
 	""" Sorts worldcites dataset by latitudes with quicksort """
 
-	def sort(data: list[dict], left_index: int, right_index: int):
+	def sort(data: List[dict], left_index: int, right_index: int):
 		global node_count
 		node_count += 1
 		if left_index <= right_index:
@@ -113,7 +113,7 @@ def quicksort(dataset: list[dict], compare: str) -> list[dict]:
 
 		return data
 
-	def partition(data: list[dict], left_index: int, right_index: int) -> int:
+	def partition(data: List[dict], left_index: int, right_index: int) -> int:
 		global merge_count
 		# pivot_index = random.randrange(left_index, right_index + 1)
 		# data[pivot_index], data[right_index] = data[right_index], data[pivot_index]
