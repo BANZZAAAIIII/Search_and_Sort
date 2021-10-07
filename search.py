@@ -25,6 +25,7 @@ def OBST_search(dataset: List[dict], city_value, lat_value, printy=False):
 		# Based on: https://www.radford.edu/~nokie/classes/360/dp-opt-bst.html
 		cost = [[0 for _ in range(n)] for _ in range(n)]
 		root = [[0 for _ in range(n)] for _ in range(n)]
+		node = [[0 for _ in range(n)] for _ in range(n)]
 
 		# Diagonal cost
 		for i in range(n):
@@ -42,6 +43,8 @@ def OBST_search(dataset: List[dict], city_value, lat_value, printy=False):
 
 				# Checks cost of all nodes, from row to col, as root
 				for r in range(row, col + 1):
+					# print(f"r: {r}, col: {col}, row: {row}")
+					# print(f"range: {range(row, col + 1)}")
 					# Cost of current node
 					currentCost = sum(data[i]["freq"] for i in range(row, col + 1))
 
@@ -52,26 +55,31 @@ def OBST_search(dataset: List[dict], city_value, lat_value, printy=False):
 					if r != col:
 						currentCost += cost[r + 1][col]
 
-
 					# Checks if this node has a lower cost
 					if currentCost < cost[row][col]:
-						root[row][col] = data[r]["lat"]
-						cost[row][col] = currentCost
-		return cost, root
+						root[row][col] = data[r]["lat"] # Updates root
+						node[row][col] = r				# updates index
+						cost[row][col] = currentCost	# Updates cost
+		return root, node, cost
 
 	dataset = [{"lat": 10, "freq": 4}, {"lat": 20, "freq": 2}, {"lat": 30, "freq": 6}, {"lat": 40, "freq": 3}]
-	cost, root = optimalBinarySearchTree(dataset, len(dataset))
+	root, node, cost = optimalBinarySearchTree(dataset, len(dataset))
 
-	print(f"OBST Cost: {cost[0][len(dataset) - 1]}, Root node: {root[0][len(dataset) - 1]}")
-
+	print(f"OBST Cost: {cost[0][len(dataset) - 1]}")
+	print(f"Root node: {root[0][len(dataset) - 1]}")
+	print(f"Node node: {dataset[node[0][len(dataset) - 1]]}")
 
 	if printy:
-		print("nodes:")
+		print("Root:")
 		for d in root:
+			print(f"\t{d}")
+
+		print("Node:")
+		for d in node:
 			print(f"\t{d}")
 
 		print("Cost:")
 		for d in cost:
 			print(f"\t{d}")
 
-	return cost, root
+	return root, node, cost

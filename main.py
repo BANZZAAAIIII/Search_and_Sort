@@ -69,7 +69,7 @@ def main():
 	for d in dataset_norway:
 		d["freq"] = random.randrange(0, 100)/100
 
-	cost, root = search.OBST_search(dataset_norway, 1, 1, True)
+	root, node, cost = search.OBST_search(dataset_norway, 1, 1, True)
 
 
 
