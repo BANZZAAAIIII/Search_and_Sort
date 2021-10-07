@@ -1,4 +1,5 @@
 from typing import List
+import random
 import math
 
 merge_count = 0
@@ -97,7 +98,7 @@ def mergesort_from_pos(dataset, lat, lng):
 	return mergesort(dataset, "dist")
 
 
-def quicksort(dataset: List[dict], compare: str) -> List[dict]:
+def quicksort(dataset: List[dict], compare: str, rand=True) -> List[dict]:
 	""" Sorts worldcites dataset by latitudes with quicksort """
 
 	def sort(data: List[dict], left_index: int, right_index: int):
@@ -115,10 +116,14 @@ def quicksort(dataset: List[dict], compare: str) -> List[dict]:
 
 	def partition(data: List[dict], left_index: int, right_index: int) -> int:
 		global merge_count
-		# pivot_index = random.randrange(left_index, right_index + 1)
-		# data[pivot_index], data[right_index] = data[right_index], data[pivot_index]
+		# Choosing a random pivot by swapping random index with right most index
+		if rand:
+			r = random.randrange(left_index, right_index + 1)
+			data[r], data[right_index] = data[right_index], data[r]
+
 		pivot_index = right_index
 		pivot = data[pivot_index][compare]
+
 		i = left_index - 1
 		for j in range(left_index, pivot_index):
 			if data[j][compare] < pivot:

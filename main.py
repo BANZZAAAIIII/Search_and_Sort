@@ -10,7 +10,7 @@ import sorts
 
 
 def main():
-	dataset = fm.get_data()
+	dataset = fm.get_data(True)
 
 	# print("1.1:")
 	# sorted_by_lat = sorts.mergesort(list(dataset), "lat")
@@ -36,22 +36,25 @@ def main():
 	# sorts.reset_globals()
 	#
 	#
-	# print("\n2.1:")
-	# sorted_by_lat = sorts.quicksort(list(dataset), "lat")
-	# print(f"\tnumber of merges done: {sorts.merge_count}")
-	# print(f"\tnumber of nodes visited: {sorts.node_count}")
-	# sorts.reset_globals()
-	#
-	#
-	# print("\n2.2:")
-	# print("\tShuffling list")
-	# shuffled_list = list(dataset)
-	# shuffle(shuffled_list)
-	#
-	# sorted_by_lat_shuffled = sorts.quicksort(shuffled_list, "lat")
-	# print(f"\tnumber of merges done: {sorts.merge_count}")
-	# print(f"\tnumber of nodes visited: {sorts.node_count}")
-	# sorts.reset_globals()
+	print("\n2.1:")
+	sorted_by_lat = sorts.quicksort(list(dataset), "lat")
+	print(f"\tnumber of merges done: {sorts.merge_count}")
+	print(f"\tnumber of nodes visited: {sorts.node_count}")
+	sorts.reset_globals()
+
+
+	print("\n2.2:")
+	print("\tShuffling list")
+	shuffled_list = list(dataset)
+	shuffle(shuffled_list)
+
+	sorted_by_lat_shuffled = sorts.quicksort(shuffled_list, "lat")
+	print(f"\tnumber of merges done: {sorts.merge_count}")
+	print(f"\tnumber of nodes visited: {sorts.node_count}")
+	sorts.reset_globals()
+
+	# for d in sorted_by_lat_shuffled:
+	# 	print(d)
 	#
 	#
 	# print("\n2.3:")
@@ -65,12 +68,12 @@ def main():
 	# print("\t" + str(search.binary_search(sorted_by_lat, "Catas Altas", -20.0750)))
 	# print("\t" + str(search.binary_search(sorted_by_lat, "Itaúna", -20.0750)))
 
-	dataset_norway = fm.get_data(True)
-	for d in dataset_norway:
-		d["freq"] = random.randrange(0, 100)/100
-
-	root, node, cost = search.OBST_search(dataset_norway, 1, 1, True)
-
+	# dataset_norway = fm.get_data(True)
+	# for d in dataset_norway:
+	# 	d["freq"] = random.randrange(0, 100)/100
+	#
+	# root, node, cost = search.OBST_search(dataset_norway, 1, 1, True)
+	#
 
 
 
