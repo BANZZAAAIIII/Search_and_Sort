@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import random
 import math
 
@@ -101,7 +101,7 @@ def mergesort_from_pos(dataset, lat, lng):
 def quicksort(dataset: List[dict], compare: str, rand=True) -> List[dict]:
 	""" Sorts worldcites dataset by latitudes with quicksort """
 
-	def sort(data: List[dict], left_index: int, right_index: int):
+	def sort(data: List[dict], left_index: int, right_index: int) -> Optional[List[dict]]:
 		global node_count
 		node_count += 1
 		if left_index <= right_index:
