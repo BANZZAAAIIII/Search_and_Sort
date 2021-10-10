@@ -64,21 +64,21 @@ def OBST_search(dataset: List[dict], city_value, lat_value, printy=False):
 	# dataset = [{"lat": 10, "freq": 4}, {"lat": 20, "freq": 2}, {"lat": 30, "freq": 6}, {"lat": 40, "freq": 3}]
 	root, node, cost = optimalBinarySearchTree(dataset, len(dataset))
 
-	print(f"OBST Cost: {cost[0][len(dataset) - 1]}")
-	print(f"Root node: {root[0][len(dataset) - 1]}")
-	print(f"Node node: {dataset[node[0][len(dataset) - 1]]}")
+	print(f"\tOBST Cost: {cost[0][len(dataset) - 1]}")
+	print(f"\tRoot node: {root[0][len(dataset) - 1]}")
+	print(f"\tNode node: {dataset[node[0][len(dataset) - 1]]}")
 	if printy:
-		print("Root:")
+		print("\tRoot:")
 		for d in root:
-			print(f"\t{d}")
+			print(f"\t\t{d}")
 
-		print("Node:")
+		print("\tNode:")
 		for d in node:
-			print(f"\t{d}")
+			print(f"\t\t{d}")
 
-		print("Cost:")
+		print("\tCost:")
 		for d in cost:
-			print(f"\t{d}")
+			print(f"\t\t{d}")
 
 	def search():
 		for i, row in enumerate(root):
@@ -87,6 +87,6 @@ def OBST_search(dataset: List[dict], city_value, lat_value, printy=False):
 					if dataset[i]["city"] == city_value:
 						return dataset[i]
 		return None
-	print(f"Search result: {search()}")
+	print(f"\tSearch result: {search()}")
 
 	return root, node, cost

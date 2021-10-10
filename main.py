@@ -66,6 +66,7 @@ def main():
 	print("\t" + str(search.binary_search(sorted_by_lat, "Catas Altas", -20.0750)))
 	print("\t" + str(search.binary_search(sorted_by_lat, "Itaúna", -20.0750)))
 
+	print("\n4 Optimal Binary search")
 	dataset_norway = fm.get_data(True)
 	for d in dataset_norway:
 		d["freq"] = random.randrange(0, 100)/100
